@@ -1,0 +1,19 @@
+.game {
+  max-width: 730px;
+  margin: 0 auto;
+  padding: 0 20px;
+
+  .account-info {
+    text-align: center;
+  }
+
+  .trade-button {
+    &.buy {
+      float: left;
+    }
+
+    &.sell {
+      float: right;
+    }
+  }
+}
