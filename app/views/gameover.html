@@ -1,0 +1,17 @@
+<div class="jumbotron game-over">
+  <div class="container">
+    <h1>Game Over</h1>
+    <p>Good work!</p>
+  </div>
+</div>
+<div class="container game-over">
+  <div class="row">
+    <div ng-if="final">
+      <h2 ng-if="final" ng-class="final < 0 ? 'negative' : 'positive'">
+        Final score: {{ final | currency:"$" }}
+      </h2>
+    </div>
+
+    <a ng-href="#/game"><h3>Try again?</h3></a>
+  </div>
+</div>

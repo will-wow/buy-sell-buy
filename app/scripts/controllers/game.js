@@ -8,8 +8,9 @@
  * Controller for the main game view
  */
 angular.module('bsb')
-  .controller('GameCtrl', function ($scope, $interval, market, stocks, words) {
+  .controller('GameCtrl', function ($scope, $interval, $timeout, $location, market, stocks, words) {
     var stopUpdates,
+        stopTimeout,
         STARTING_DOLLARS = 10000,
         TURN_LENGTH = 1000, // 1 second turn
         GAME_LENGTH = 90000; // 1.5 minute game
@@ -70,24 +71,34 @@ angular.module('bsb')
       // run nextPrice every second
       stopUpdates = $interval(function () {
         market.nextPrice();
-        // TODO: figure out why this isn't being passed by ref already
-        $scope.data[0].values = $scope.prices;
 
-        // increment the time elapsed
-        $scope.time.elapsed += TURN_LENGTH;
+        if (market.currentPrice() > 0) {
+          // Continue if the price is positive
+          // TODO: figure out why this isn't being passed by ref already
+          $scope.data[0].values = $scope.prices;
+
+          // increment the time elapsed
+          $scope.time.elapsed += TURN_LENGTH;
+        } else {
+          // End if the price goes to $0
+          $scope.gameOver();
+        }
+
+
       }, TURN_LENGTH);
 
       // End after time is over
-      $interval(function () {
-        $scope.stopPlay();
-      }, GAME_LENGTH - $scope.time.elapsed);
+      stopTimeout = $timeout($scope.gameOver, GAME_LENGTH - $scope.time.elapsed);
 
       $scope.paused = false;
     };
 
-    $scope.pausePlay = function () {
-      console.log('pause');
+    $scope.gameOver = function () {
+      $scope.stopPlay();
+      $location.url('/game-over');
+    };
 
+    $scope.pausePlay = function () {
       // stop play
       $scope.stopPlay();
 
@@ -97,6 +108,10 @@ angular.module('bsb')
     $scope.stopPlay = function () {
       if (stopUpdates) {
         $interval.cancel(stopUpdates);
+      }
+
+      if (stopTimeout) {
+        $interval.cancel(stopTimeout);
       }
     };
 
@@ -135,6 +150,9 @@ angular.module('bsb')
       $scope.symbol = words.symbol;
 
       $scope.startPlay();
+
+      // Cancel on exit
+      $scope.$on('$destroy', $scope.stopPlay);
     };
 
     $scope.init();
