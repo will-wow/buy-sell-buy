@@ -115,7 +115,7 @@ angular.module('bsb')
 
       randomWord = function () {
         // get a random index from the list
-        var wordNumber = Math.floor(Math.random() * wordLength - 1);
+        var wordNumber = Math.floor(Math.random() * wordLength);
 
         return wordList[wordNumber];
       },

@@ -14,6 +14,7 @@ angular.module('bsb')
         TURN_LENGTH = 1000, // 1 second turn
         GAME_LENGTH = 90000; // 1.5 minute game
 
+
     /* Chart options */
     $scope.config = {
       refreshDataOnly: true
@@ -27,7 +28,7 @@ angular.module('bsb')
         showControls: false,
         showLegend: false,
         showXAxis: false,
-        tooltips: true,
+        tooltips: false,
         margin : {
           top: 20,
           right: 0,
@@ -41,8 +42,8 @@ angular.module('bsb')
         y: function (d) {return d[1];},
         useVoronoi: false,
         clipEdge: true,
-        transitionDuration: 500,
-        useInteractiveGuideline: true,
+        transitionDuration: 250,
+        useInteractiveGuideline: false,
         xAxis: {
           tickFormat: function(d) {
             return d;
@@ -58,17 +59,39 @@ angular.module('bsb')
       }
     };
 
+    $scope.paused = false;
+
+    $scope.time = {
+      length: GAME_LENGTH,
+      elapsed: 0
+    };
+
     $scope.startPlay = function () {
       // run nextPrice every second
       stopUpdates = $interval(function () {
         market.nextPrice();
         // TODO: figure out why this isn't being passed by ref already
         $scope.data[0].values = $scope.prices;
+
+        // increment the time elapsed
+        $scope.time.elapsed += TURN_LENGTH;
       }, TURN_LENGTH);
 
+      // End after time is over
       $interval(function () {
         $scope.stopPlay();
-      }, GAME_LENGTH);
+      }, GAME_LENGTH - $scope.time.elapsed);
+
+      $scope.paused = false;
+    };
+
+    $scope.pausePlay = function () {
+      console.log('pause');
+
+      // stop play
+      $scope.stopPlay();
+
+      $scope.paused = true;
     };
 
     $scope.stopPlay = function () {
@@ -93,6 +116,11 @@ angular.module('bsb')
         key: 'prices',
         values: market.setFirstPrice()
       }];
+
+      // Preload the next 9 moves, so there's some data to start with
+      for (var i = 0; i < 10; i++) {
+        market.nextPrice();
+      }
 
       $scope.prices = $scope.data[0].values;
 

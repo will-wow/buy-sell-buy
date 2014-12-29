@@ -1,8 +1,9 @@
 <div class="game">
-  <h2>{{ name + ' ' + symbol }}</h2>
+  <h2>{{ name + ': ' + symbol }}</h2>
   <h3>{{ displayPrice() }}</h3>
 
   <nvd3 config="config" options="options" data="data"></nvd3>
+  <time-bar time="time" ng-click="pausePlay()"></time-bar>
 
   <div class="row">
     <div class="account-info col-xs-4">
@@ -17,4 +18,13 @@
 
   <trade-button type="buy"></trade-button>
   <trade-button type="sell"></trade-button>
+
+  <div class="pause-overlay" ng-show="paused" ng-click="startPlay()">
+    <div class="pause-button">
+      <div class="pause-icon">
+        <div class="pause-bar-one"></div>
+        <div class="pause-bar-two"></div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -39,7 +39,7 @@ angular.module('bsb')
             var oldPrice = currentPrice(),
                 // Generate a delta
                 // This is a normal distribution with mean 0, standard deviation 0.1, plus a 0.01 upward trend
-                variance = Math.abs(normalDistribution(0.005, 0.01)),
+                variance = Math.abs(normalDistribution(0.0075, 0.01)),
                 delta = normalDistribution(Math.sqrt(variance), 0.01),
                 // calculate the new price
                 priceChange = oldPrice * delta;
