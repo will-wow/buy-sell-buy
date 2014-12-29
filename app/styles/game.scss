@@ -24,4 +24,10 @@
       float: right;
     }
   }
+
+  // Gets rid of circles
+  .nv-stackedAreaChart .nvd3.nv-scatter.nv-single-point .nv-groups circle.nv-point {
+    fill-opacity: 0 !important;
+    stroke-opacity: 0 !important;
+  }
 }

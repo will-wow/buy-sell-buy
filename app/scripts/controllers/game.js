@@ -8,7 +8,7 @@
  * Controller for the main game view
  */
 angular.module('bsb')
-  .controller('GameCtrl', ['$scope', '$interval', 'market', 'stocks', function ($scope, $interval, market, stocks) {
+  .controller('GameCtrl', function ($scope, $interval, market, stocks, words) {
     var stopUpdates,
         STARTING_DOLLARS = 10000,
         TURN_LENGTH = 1000, // 1 second turn
@@ -58,7 +58,6 @@ angular.module('bsb')
       }
     };
 
-
     $scope.startPlay = function () {
       // run nextPrice every second
       stopUpdates = $interval(function () {
@@ -87,6 +86,8 @@ angular.module('bsb')
     };
 
     $scope.init = function () {
+      words.generateName();
+
       // Put prices on scope, and start at a random price
       $scope.data = [{
         key: 'prices',
@@ -102,8 +103,11 @@ angular.module('bsb')
       // Connect to stocks service to get account, price, and trade() on scope
       $scope.stocks = stocks;
 
+      $scope.name = words.name;
+      $scope.symbol = words.symbol;
+
       $scope.startPlay();
     };
 
     $scope.init();
-  }]);
+  });
