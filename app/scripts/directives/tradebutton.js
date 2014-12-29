@@ -10,9 +10,15 @@ angular.module('bsb')
   .directive('tradeButton', ['$document', 'stocks', function ($document, stocks) {
 
     var trade = function (scope) {
-      var change = scope.type === 'buy' ? 1 : -1;
+        var change = scope.type === 'buy' ? 1 : -1;
 
-          stocks.trade(change);
+        // stop
+        clickSound.pause();
+        clickSound.currentTime = 0;
+        // play
+        clickSound.play();
+
+        stocks.trade(change);
       },
 
       // Sets up listener or shortcut events
@@ -24,8 +30,12 @@ angular.module('bsb')
                 trade(scope);
                 scope.$apply();
               }
-          })
-      };
+          });
+      },
+
+      clickSound = document.createElement('audio');
+
+    clickSound.src = '/audio/bip.mp3';
 
     return {
       restrict: 'E',

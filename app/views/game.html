@@ -10,7 +10,7 @@
       <h4>Shares</h4>
     </div>
     <div class="account-info col-xs-8">
-      <h3>{{ stocks.account | currency:"$" }}</h3>
+      <h3 ng-class="stocks.account < 0 ? 'negative' : 'positive'">{{ stocks.account | currency:"$" }}</h3>
       <h4>Balance</h4>
     </div>
   </div>

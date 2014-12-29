@@ -9,7 +9,10 @@
  */
 angular.module('bsb')
   .controller('GameCtrl', ['$scope', '$interval', 'market', 'stocks', function ($scope, $interval, market, stocks) {
-    var stopUpdates;
+    var stopUpdates,
+        STARTING_DOLLARS = 10000,
+        TURN_LENGTH = 1000, // 1 second turn
+        GAME_LENGTH = 90000; // 1.5 minute game
 
     /* Chart options */
     $scope.config = {
@@ -24,7 +27,7 @@ angular.module('bsb')
         showControls: false,
         showLegend: false,
         showXAxis: false,
-        tooltips: false,
+        tooltips: true,
         margin : {
           top: 20,
           right: 0,
@@ -39,7 +42,7 @@ angular.module('bsb')
         useVoronoi: false,
         clipEdge: true,
         transitionDuration: 500,
-        useInteractiveGuideline: false,
+        useInteractiveGuideline: true,
         xAxis: {
           tickFormat: function(d) {
             return d;
@@ -62,7 +65,11 @@ angular.module('bsb')
         market.nextPrice();
         // TODO: figure out why this isn't being passed by ref already
         $scope.data[0].values = $scope.prices;
-      }, 1000);
+      }, TURN_LENGTH);
+
+      $interval(function () {
+        $scope.stopPlay();
+      }, GAME_LENGTH);
     };
 
     $scope.stopPlay = function () {
@@ -89,9 +96,9 @@ angular.module('bsb')
       $scope.prices = $scope.data[0].values;
 
       // Starting account balance
-      stocks.account = 10000;
+      stocks.account = STARTING_DOLLARS;
       // Starting number of stocks
-      stocks.count = 0;
+      stocks.count = Math.round(STARTING_DOLLARS / market.currentPrice());
       // Connect to stocks service to get account, price, and trade() on scope
       $scope.stocks = stocks;
 
