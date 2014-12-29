@@ -111,7 +111,7 @@ angular.module('bsb')
       }
 
       if (stopTimeout) {
-        $interval.cancel(stopTimeout);
+        $timeout.cancel(stopTimeout);
       }
     };
 
