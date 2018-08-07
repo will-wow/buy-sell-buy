@@ -1,7 +1,9 @@
 {
   "name": "buysellbuy",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "surge": "^0.20.1"
+  },
   "devDependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",
@@ -32,6 +34,8 @@
     "node": ">=0.10.0"
   },
   "scripts": {
+    "build": "grunt build",
+    "deploy": "surge -p ./dist --domain buysellbuy.surge.sh",
     "test": "grunt test"
   }
 }
