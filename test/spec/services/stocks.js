@@ -2,7 +2,7 @@
 
 describe('Service: stocks', function() {
   // load the service's module
-  beforeEach(module('buySellBuyApp'));
+  beforeEach(module('bsb'));
 
   // instantiate service
   var stocks;

@@ -2,7 +2,7 @@
 
 describe('Controller: GameoverCtrl', function() {
   // load the controller's module
-  beforeEach(module('buySellBuyApp'));
+  beforeEach(module('bsb'));
 
   var GameoverCtrl, scope;
 

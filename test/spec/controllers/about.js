@@ -2,7 +2,7 @@
 
 describe('Controller: AboutCtrl', function() {
   // load the controller's module
-  beforeEach(module('buySellBuyApp'));
+  beforeEach(module('bsb'));
 
   var AboutCtrl, scope;
 

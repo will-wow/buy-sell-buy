@@ -2,7 +2,7 @@
 
 describe('Directive: timeBar', function() {
   // load the directive's module
-  beforeEach(module('buySellBuyApp'));
+  beforeEach(module('bsb'));
 
   var element, scope;
 
