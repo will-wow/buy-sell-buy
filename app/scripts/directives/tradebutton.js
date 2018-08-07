@@ -6,10 +6,11 @@
  * @description
  * # tradeButton
  */
-angular.module('bsb')
-  .directive('tradeButton', ['$document', 'stocks', function ($document, stocks) {
-
-    var trade = function (scope) {
+angular.module('bsb').directive('tradeButton', [
+  '$document',
+  'stocks',
+  function($document, stocks) {
+    var trade = function(scope) {
         var change = scope.type === 'buy' ? 1 : -1;
 
         // stop
@@ -20,19 +21,17 @@ angular.module('bsb')
 
         stocks.trade(change);
       },
-
       // Sets up listener or shortcut events
-      setUpKeyListener = function (scope) {
-          var key = scope.type === 'buy' ? 70 : 74;
+      setUpKeyListener = function(scope) {
+        var key = scope.type === 'buy' ? 70 : 74;
 
-          angular.element($document).on('keydown', function (event) {
-              if (event.keyCode === key) {
-                trade(scope);
-                scope.$apply();
-              }
-          });
+        angular.element($document).on('keydown', function(event) {
+          if (event.keyCode === key) {
+            trade(scope);
+            scope.$apply();
+          }
+        });
       },
-
       clickSound = document.createElement('audio');
 
     clickSound.src = '/audio/bip.mp3';
@@ -42,7 +41,7 @@ angular.module('bsb')
       scope: {
         type: '@'
       },
-      link: function (scope) {
+      link: function(scope) {
         scope.trade = trade.bind(null, scope);
 
         setUpKeyListener(scope);
@@ -50,4 +49,5 @@ angular.module('bsb')
       replace: true,
       templateUrl: '../../views/templates/trade-button.html'
     };
-  }]);
+  }
+]);

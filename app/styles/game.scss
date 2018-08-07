@@ -31,15 +31,13 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(100,100,100,0.5);
+    background-color: rgba(100, 100, 100, 0.5);
     opacity: 1;
     transition: opacity ease 1s;
-
 
     &.ng-hide {
       opacity: 0;
     }
-
 
     .pause-button {
       opacity: 0.5;
@@ -60,7 +58,8 @@
         height: 80%;
         width: 70%;
 
-        .pause-bar-one, .pause-bar-two {
+        .pause-bar-one,
+        .pause-bar-two {
           position: absolute;
           width: 100%;
           height: 25%;
@@ -80,7 +79,10 @@
   }
 
   // Gets rid of circles
-  .nv-stackedAreaChart .nvd3.nv-scatter.nv-single-point .nv-groups circle.nv-point {
+  .nv-stackedAreaChart
+    .nvd3.nv-scatter.nv-single-point
+    .nv-groups
+    circle.nv-point {
     fill-opacity: 0 !important;
     stroke-opacity: 0 !important;
   }

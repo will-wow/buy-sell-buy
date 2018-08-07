@@ -7,7 +7,4 @@
  * # AboutCtrl
  * Controller for the about page
  */
-angular.module('bsb')
-  .controller('AboutCtrl', function () {
-
-  });
+angular.module('bsb').controller('AboutCtrl', function() {});

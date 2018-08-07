@@ -7,14 +7,22 @@
  * # GameCtrl
  * Controller for the main game view
  */
-angular.module('bsb')
-  .controller('GameCtrl', function ($scope, $interval, $timeout, $location, market, stocks, words) {
+angular
+  .module('bsb')
+  .controller('GameCtrl', function(
+    $scope,
+    $interval,
+    $timeout,
+    $location,
+    market,
+    stocks,
+    words
+  ) {
     var stopUpdates,
-        stopTimeout,
-        STARTING_DOLLARS = 10000,
-        TURN_LENGTH = 1000, // 1 second turn
-        GAME_LENGTH = 90000; // 1.5 minute game
-
+      stopTimeout,
+      STARTING_DOLLARS = 10000,
+      TURN_LENGTH = 1000, // 1 second turn
+      GAME_LENGTH = 90000; // 1.5 minute game
 
     /* Chart options */
     $scope.config = {
@@ -30,17 +38,21 @@ angular.module('bsb')
         showLegend: false,
         showXAxis: false,
         tooltips: false,
-        margin : {
+        margin: {
           top: 20,
           right: 0,
           bottom: 20,
           left: 40
         },
-        color: function () {
+        color: function() {
           return 'green';
         },
-        x: function (d) {return d[0];},
-        y: function (d) {return d[1];},
+        x: function(d) {
+          return d[0];
+        },
+        y: function(d) {
+          return d[1];
+        },
         useVoronoi: false,
         clipEdge: true,
         transitionDuration: 250,
@@ -52,7 +64,7 @@ angular.module('bsb')
           showMaxMin: false
         },
         yAxis: {
-          tickFormat: function(d){
+          tickFormat: function(d) {
             return '$' + d.toFixed(2);
           },
           showMaxMin: false
@@ -67,9 +79,9 @@ angular.module('bsb')
       elapsed: 0
     };
 
-    $scope.startPlay = function () {
+    $scope.startPlay = function() {
       // run nextPrice every second
-      stopUpdates = $interval(function () {
+      stopUpdates = $interval(function() {
         market.nextPrice();
 
         if (market.currentPrice() > 0) {
@@ -83,29 +95,30 @@ angular.module('bsb')
           // End if the price goes to $0
           $scope.gameOver();
         }
-
-
       }, TURN_LENGTH);
 
       // End after time is over
-      stopTimeout = $timeout($scope.gameOver, GAME_LENGTH - $scope.time.elapsed);
+      stopTimeout = $timeout(
+        $scope.gameOver,
+        GAME_LENGTH - $scope.time.elapsed
+      );
 
       $scope.paused = false;
     };
 
-    $scope.gameOver = function () {
+    $scope.gameOver = function() {
       $scope.stopPlay();
       $location.url('/game-over');
     };
 
-    $scope.pausePlay = function () {
+    $scope.pausePlay = function() {
       // stop play
       $scope.stopPlay();
 
       $scope.paused = true;
     };
 
-    $scope.stopPlay = function () {
+    $scope.stopPlay = function() {
       if (stopUpdates) {
         $interval.cancel(stopUpdates);
       }
@@ -115,22 +128,24 @@ angular.module('bsb')
       }
     };
 
-    $scope.displayPrice = function () {
+    $scope.displayPrice = function() {
       var price = market.currentPrice(),
-          firstPrice = market.prices[0][1],
-          change = Math.round(((price-firstPrice) / firstPrice) * 10000) / 100;
+        firstPrice = market.prices[0][1],
+        change = Math.round(((price - firstPrice) / firstPrice) * 10000) / 100;
 
       return '$' + price + ' (' + change + '%)';
     };
 
-    $scope.init = function () {
+    $scope.init = function() {
       words.generateName();
 
       // Put prices on scope, and start at a random price
-      $scope.data = [{
-        key: 'prices',
-        values: market.setFirstPrice()
-      }];
+      $scope.data = [
+        {
+          key: 'prices',
+          values: market.setFirstPrice()
+        }
+      ];
 
       // Preload the next 9 moves, so there's some data to start with
       for (var i = 0; i < 10; i++) {

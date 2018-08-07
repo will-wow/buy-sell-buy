@@ -9,14 +9,8 @@
  * Main module of the application.
  */
 angular
-  .module('bsb', [
-    'ngAnimate',
-    'ngCookies',
-    'ngRoute',
-    'ngTouch',
-    'nvd3'
-  ])
-  .config(function ($routeProvider) {
+  .module('bsb', ['ngAnimate', 'ngCookies', 'ngRoute', 'ngTouch', 'nvd3'])
+  .config(function($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/home.html',

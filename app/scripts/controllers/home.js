@@ -7,7 +7,4 @@
  * # HomeCtrl
  * Controller for the hompage
  */
-angular.module('bsb')
-  .controller('HomeCtrl', function () {
-
-  });
+angular.module('bsb').controller('HomeCtrl', function() {});
